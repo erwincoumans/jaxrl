@@ -55,9 +55,9 @@ def make_env(env_name: str,
                                       pixels_only=pixels_only,
                                       render_kwargs={
                                           'pixels': {
-                                              'height': image_size,
-                                              'width': image_size,
-                                              'camera_id': camera_id
+                                              #'height': image_size,
+                                              #'width': image_size,
+                                              #'camera_id': camera_id
                                           }
                                       })
         env = wrappers.TakeKey(env, take_key='pixels')
