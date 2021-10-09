@@ -53,13 +53,7 @@ def make_env(env_name: str,
             camera_id = 2 if domain_name == 'quadruped' else 0
         env = PixelObservationWrapper(env,
                                       pixels_only=pixels_only,
-                                      render_kwargs={
-                                          'pixels': {
-                                              #'height': image_size,
-                                              #'width': image_size,
-                                              #'camera_id': camera_id
-                                          }
-                                      })
+                                      render_kwargs=None)
         env = wrappers.TakeKey(env, take_key='pixels')
         if gray_scale:
             env = wrappers.RGB2Gray(env)
