@@ -32,15 +32,11 @@ class VideoRecorder(gym.Wrapper):
 
     def step(self, action: np.ndarray) -> TimeStep:
 
-        frame = self.env.render(mode='rgb_array',
-                                height=self.height,
-                                width=self.width)
+        frame = self.env.render(mode='rgb_array')
 
         if frame is None:
             try:
-                frame = self.sim.render(width=self.width,
-                                        height=self.height,
-                                        mode='offscreen')
+                frame = self.sim.render(mode='offscreen')
                 frame = np.flipud(frame)
             except:
                 raise NotImplementedError('Rendering is not implemented.')
