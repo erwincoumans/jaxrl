@@ -26,11 +26,6 @@ def make_env(env_name: str,
 
     if env_name in env_ids:
         env = gym.make(env_name)
-    else:
-        domain_name, task_name = env_name.split('-')
-        env = wrappers.DMCEnv(domain_name=domain_name,
-                              task_name=task_name,
-                              task_kwargs={'random': seed})
 
     if flatten and isinstance(env.observation_space, gym.spaces.Dict):
         env = gym.wrappers.FlattenObservation(env)

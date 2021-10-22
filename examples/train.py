@@ -7,17 +7,30 @@ from absl import app, flags
 from ml_collections import config_flags
 from tensorboardX import SummaryWriter
 
-from jaxrl.agents import AWACLearner, DDPGLearner, SACLearner, SACV1Learner
+from jaxrl.agents import DDPGLearner, SACLearner, SACV1Learner
 from jaxrl.datasets import ReplayBuffer
 from jaxrl.evaluation import evaluate
 from jaxrl.utils import make_env
 
+try:
+  import puppersim
+except:
+  pass
+try:
+  import pybullet_envs
+except:
+  pass
+try:
+  import tds_environments
+except:
+  pass
+
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string('env_name', 'HalfCheetah-v2', 'Environment name.')
+flags.DEFINE_string('env_name', 'PupperGymEnv-v0', 'Environment name.')
 flags.DEFINE_string('save_dir', './tmp/', 'Tensorboard logging dir.')
 flags.DEFINE_integer('seed', 42, 'Random seed.')
-flags.DEFINE_integer('eval_episodes', 10,
+flags.DEFINE_integer('eval_episodes', 1,
                      'Number of episodes used for evaluation.')
 flags.DEFINE_integer('log_interval', 1000, 'Logging interval.')
 flags.DEFINE_integer('eval_interval', 5000, 'Eval interval.')
@@ -26,7 +39,7 @@ flags.DEFINE_integer('max_steps', int(1e6), 'Number of training steps.')
 flags.DEFINE_integer('start_training', int(1e4),
                      'Number of training steps to start training.')
 flags.DEFINE_boolean('tqdm', True, 'Use tqdm progress bar.')
-flags.DEFINE_boolean('save_video', False, 'Save videos during evaluation.')
+flags.DEFINE_boolean('save_video', True, 'Save videos during evaluation.')
 config_flags.DEFINE_config_file(
     'config',
     'configs/sac_default.py',
@@ -39,7 +52,7 @@ def main(_):
         os.path.join(FLAGS.save_dir, 'tb', str(FLAGS.seed)))
 
     if FLAGS.save_video:
-        video_train_folder = os.path.join(FLAGS.save_dir, 'video', 'train')
+        video_train_folder = None#os.path.join(FLAGS.save_dir, 'video', 'train')
         video_eval_folder = os.path.join(FLAGS.save_dir, 'video', 'eval')
     else:
         video_train_folder = None
